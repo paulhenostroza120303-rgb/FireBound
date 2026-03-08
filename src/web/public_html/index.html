@@ -18,12 +18,7 @@
     <meta property="fb:app_id" content="1230287900381635" />
     <link rel="manifest" href="/static/app.json?1">
     <script>
-      fetch('/api/game-server')
-        .then(r => r.json())
-        .then(data => {
-          if (data.url) window.GAME_SERVER_URL = data.url;
-        })
-        .catch(() => {});
+      window.GAME_SERVER_URL = window.location.hostname;
     </script>
     <link rel="stylesheet" href="/static/css/dragonbound.min.css?51" />
     <script src="/static/js/1023989.js?51"></script>

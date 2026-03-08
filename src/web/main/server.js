@@ -14,11 +14,6 @@ const logger = Logger.getLogger("DragonServer");
     logger.log("Database connected");
     const app = await setupApp();
     
-    app.get("/api/game-server", (req, res) => {
-      const gameServerUrl = process.env.GAME_SERVER_URL || "";
-      res.json({ url: gameServerUrl });
-    });
-    
     logger.break();
     logger.green("Compiled successfully!");
     logger.break();
