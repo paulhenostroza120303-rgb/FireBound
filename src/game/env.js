@@ -51,6 +51,8 @@ const getRailwayMySQL = () => {
 
 const dbConfig = getRailwayMySQL();
 
+console.log("Game server DB config:", dbConfig);
+
 module.exports = {
   DB: dbConfig,
   GAME_PORT: parseInt(getEnvOrDefault("GAME_PORT", "9001")),
