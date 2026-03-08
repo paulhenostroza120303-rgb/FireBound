@@ -41816,7 +41816,7 @@
       R = k;
       a &&
         (d.SetHandler("receive", Object.freeze(k)),
-        d.Connect("ws://" + (window.GAME_SERVER_URL || window.location.hostname + ":9001") + "/" + c));
+        d.Connect("wss://" + (window.GAME_SERVER_URL || window.location.hostname + ":9001") + "/" + c));
       //d.Connect("wss://server.thbound.com/" + c));
       DN = this;
       this.ds = d;
