@@ -18,12 +18,18 @@ const setupHttpServer = (app) => {
       console.log("Connected to game server");
     });
     
+    client.setEncoding("utf8");
+    
     client.on("data", (data) => {
-      ws.send(data);
+      ws.send(data.toString());
     });
     
     ws.on("message", (message) => {
-      client.write(message);
+      if (Buffer.isBuffer(message)) {
+        client.write(message);
+      } else {
+        client.write(message);
+      }
     });
     
     client.on("close", () => {
