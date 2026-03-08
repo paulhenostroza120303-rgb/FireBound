@@ -51383,12 +51383,15 @@
         b.disconnected_handler && b.disconnected_handler();
       };
       this.ws.onerror = function (a) {
+        console.log("WebSocket error:", a);
         b.error_handler && b.error_handler(a);
       };
       this.ws.onmessage = function (a) {
+        console.log("WebSocket message received:", a.data);
         try {
           var d = JSON.parse(a.data);
         } catch (e) {
+          console.log("Parse error:", e, "Data:", a.data);
           b.error_handler && b.error_handler("Received not JSON: " + a.data);
           return;
         }
