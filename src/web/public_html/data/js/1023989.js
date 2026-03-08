@@ -41816,7 +41816,7 @@
       R = k;
       a &&
         (d.SetHandler("receive", Object.freeze(k)),
-        d.Connect("wss://" + window.location.hostname + "/" + c));
+        d.Connect("ws://" + window.location.hostname + "/" + c));
       //d.Connect("wss://server.thbound.com/" + c));
       DN = this;
       this.ds = d;
