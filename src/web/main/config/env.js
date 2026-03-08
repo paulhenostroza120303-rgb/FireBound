@@ -7,13 +7,14 @@ const getEnvOrDefault = (key, defaultValue) => {
 };
 
 const getRailwayMySQL = () => {
-  if (process.env.MYSQL_HOST) {
+  const mysqlHost = getEnvOrDefault("MYSQLHOST", getEnvOrDefault("MYSQL_HOST", ""));
+  if (mysqlHost) {
     return {
-      HOST: process.env.MYSQL_HOST,
-      PORT: parseInt(process.env.MYSQL_PORT || "3306"),
-      USER: process.env.MYSQL_USER,
-      PASSWORD: process.env.MYSQL_PASSWORD,
-      DATABASE: process.env.MYSQL_DATABASE,
+      HOST: mysqlHost,
+      PORT: parseInt(getEnvOrDefault("MYSQLPORT", getEnvOrDefault("MYSQL_PORT", "3306"))),
+      USER: getEnvOrDefault("MYSQLUSER", getEnvOrDefault("MYSQL_USER", "")),
+      PASSWORD: getEnvOrDefault("MYSQLPASSWORD", getEnvOrDefault("MYSQL_PASSWORD", "")),
+      DATABASE: getEnvOrDefault("MYSQL_DATABASE", getEnvOrDefault("MYSQL_DATABASE", "dragonbound")),
     };
   }
   return {
