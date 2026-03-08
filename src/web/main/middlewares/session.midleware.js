@@ -11,7 +11,7 @@ const parseMySQLUrl = (url) => {
         PASSWORD: match[2],
         HOST: match[3],
         PORT: parseInt(match[4]),
-        DATABASE: match[5],
+        DATABASE: "dragonbound", // Force dragonbound database
       };
     }
   } catch (e) {}
