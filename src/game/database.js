@@ -1587,6 +1587,9 @@ module.exports = class DataBase {
 
   putUserAvatars(data) {
     var self = this;
+    if (!data.gift_sent_by) {
+      data.gift_sent_by = 0;
+    }
     return new Promise(function (resolve, reject) {
       self.connection.getConnection().then((conn) => {
         conn.query("INSERT into user_avatars SET ?", [data]).then((rows) => {
