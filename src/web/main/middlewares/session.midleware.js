@@ -3,6 +3,8 @@ const expressMysqlSession = require("express-mysql-session");
 
 const config = require("@web/main/config/env");
 
+console.log("Session middleware DB config:", config.DB);
+
 var options = {
   host: config.DB.HOST,
   port: config.DB.PORT,
