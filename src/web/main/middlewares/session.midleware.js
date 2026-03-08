@@ -1,7 +1,30 @@
 const session = require("express-session");
 const expressMysqlSession = require("express-mysql-session");
 
+const parseMySQLUrl = (url) => {
+  if (!url) return null;
+  try {
+    const match = url.match(/mysql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
+    if (match) {
+      return {
+        USER: match[1],
+        PASSWORD: match[2],
+        HOST: match[3],
+        PORT: parseInt(match[4]),
+        DATABASE: match[5],
+      };
+    }
+  } catch (e) {}
+  return null;
+};
+
 const getRailwayMySQL = () => {
+  const mysqlUrl = process.env.MYSQL_URL;
+  if (mysqlUrl) {
+    const parsed = parseMySQLUrl(mysqlUrl);
+    if (parsed) return parsed;
+  }
+  
   const mysqlHost = process.env.MYSQLHOST || process.env.MYSQL_HOST || "";
   if (mysqlHost) {
     return {

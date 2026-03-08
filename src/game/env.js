@@ -6,7 +6,30 @@ const getEnvOrDefault = (key, defaultValue) => {
   return process.env[key] || defaultValue;
 };
 
+const parseMySQLUrl = (url) => {
+  if (!url) return null;
+  try {
+    const match = url.match(/mysql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
+    if (match) {
+      return {
+        HOST: match[3],
+        PORT: parseInt(match[4]),
+        USER: match[1],
+        PASSWORD: match[2],
+        DATABASE: match[5],
+      };
+    }
+  } catch (e) {}
+  return null;
+};
+
 const getRailwayMySQL = () => {
+  const mysqlUrl = getEnvOrDefault("MYSQL_URL", "");
+  if (mysqlUrl) {
+    const parsed = parseMySQLUrl(mysqlUrl);
+    if (parsed) return parsed;
+  }
+  
   const mysqlHost = getEnvOrDefault("MYSQLHOST", getEnvOrDefault("MYSQL_HOST", ""));
   if (mysqlHost) {
     return {
@@ -14,7 +37,7 @@ const getRailwayMySQL = () => {
       PORT: parseInt(getEnvOrDefault("MYSQLPORT", getEnvOrDefault("MYSQL_PORT", "3306"))),
       USER: getEnvOrDefault("MYSQLUSER", getEnvOrDefault("MYSQL_USER", "")),
       PASSWORD: getEnvOrDefault("MYSQLPASSWORD", getEnvOrDefault("MYSQL_PASSWORD", "")),
-      DATABASE: getEnvOrDefault("MYSQL_DATABASE", getEnvOrDefault("MYSQL_DATABASE", "dragonbound")),
+      DATABASE: getEnvOrDefault("MYSQL_DATABASE", "dragonbound"),
     };
   }
   return {
