@@ -14,7 +14,7 @@ const setupHttpServer = (app) => {
   wss.on("connection", (ws, req) => {
     console.log("WebSocket client connected from:", req.socket.remoteAddress);
     
-    const gameServerUrl = process.env.GAME_SERVER_URL || "firebound-o66l.onrender.com:443";
+    const gameServerUrl = process.env.GAME_SERVER_URL || "firebound-o66l.onrender.com:9001";
     console.log("Connecting to game server:", gameServerUrl);
     const [host, port] = gameServerUrl.split(":");
     const gamePort = parseInt(port) || 443;
@@ -26,9 +26,8 @@ const setupHttpServer = (app) => {
     }
     
     const WebSocket = require("ws");
-    const isSecure = process.env.NODE_ENV === 'production' || gamePort === 443;
-    const protocol = isSecure ? 'wss' : 'ws';
-    const wsUrl = `${protocol}://${host}${gamePort === 443 ? '' : ':' + gamePort}`;
+    // Always use ws:// for game server on port 9001
+    const wsUrl = `ws://${host}:${gamePort}`;
     const client = new WebSocket(wsUrl);
     
     client.on("open", () => {
