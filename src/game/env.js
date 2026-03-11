@@ -24,6 +24,18 @@ const parseMySQLUrl = (url) => {
 };
 
 const getRailwayMySQL = () => {
+  // Prioritize external database configuration for Render
+  const externalHost = getEnvOrDefault("EXTERNAL_DB_HOST", "");
+  if (externalHost) {
+    return {
+      HOST: externalHost,
+      PORT: parseInt(getEnvOrDefault("EXTERNAL_DB_PORT", "3306")),
+      USER: getEnvOrDefault("EXTERNAL_DB_USER", ""),
+      PASSWORD: getEnvOrDefault("EXTERNAL_DB_PASSWORD", ""),
+      DATABASE: getEnvOrDefault("EXTERNAL_DB_DATABASE", "dragonbound"),
+    };
+  }
+  
   const mysqlUrl = getEnvOrDefault("MYSQL_URL", "");
   if (mysqlUrl) {
     const parsed = parseMySQLUrl(mysqlUrl);
