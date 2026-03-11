@@ -27,7 +27,8 @@ const setupHttpServer = (app) => {
     client.on("data", (data) => {
       console.log("Data from game server, length:", data.length);
       if (Buffer.isBuffer(data)) {
-        ws.send(data);
+        const array = new Uint8Array(data);
+        ws.send(array.buffer);
       } else {
         ws.send(data.toString());
       }
@@ -38,7 +39,7 @@ const setupHttpServer = (app) => {
       if (Buffer.isBuffer(message)) {
         client.write(message);
       } else {
-        client.write(message);
+        client.write(Buffer.from(message));
       }
     });
     
