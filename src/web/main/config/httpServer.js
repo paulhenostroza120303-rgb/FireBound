@@ -26,8 +26,8 @@ const setupHttpServer = (app) => {
     }
     
     const WebSocket = require("ws");
-    // Always use ws:// for game server on port 9001
-    const wsUrl = `ws://${host}:${gamePort}`;
+    // Use wss:// for Render (SSL terminated) but connect to game server port
+    const wsUrl = `wss://${host}`;
     const client = new WebSocket(wsUrl);
     
     client.on("open", () => {
