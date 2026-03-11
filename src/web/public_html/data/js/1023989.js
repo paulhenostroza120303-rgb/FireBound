@@ -41814,7 +41814,7 @@
         }
       };
       R = k;
-      var wsUrl = "wss://" + window.location.hostname + "/" + (c || 1);
+      var wsUrl = "ws://" + window.location.hostname + "/" + (c || 1);
       console.log("Connecting to WebSocket:", wsUrl);
       a &&
         (d.SetHandler("receive", Object.freeze(k)),
