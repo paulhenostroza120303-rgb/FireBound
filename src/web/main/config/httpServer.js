@@ -14,17 +14,22 @@ const setupHttpServer = (app) => {
   wss.on("connection", (ws, req) => {
     console.log("WebSocket client connected from:", req.socket.remoteAddress);
     
-    const gameServerUrl = process.env.GAME_SERVER_URL || "zooming-harmony.railway.internal:9001";
+    const gameServerUrl = process.env.GAME_SERVER_URL || "firebound-o66l.onrender.com:443";
     console.log("Connecting to game server:", gameServerUrl);
     const [host, port] = gameServerUrl.split(":");
-    const gamePort = parseInt(port) || 9001;
+    const gamePort = parseInt(port) || 443;
     
-    const net = require("net");
-    const client = net.createConnection(gamePort, host, () => {
+    const WebSocket = require("ws");
+    const isSecure = process.env.NODE_ENV === 'production' || gamePort === 443;
+    const protocol = isSecure ? 'wss' : 'ws';
+    const wsUrl = `${protocol}://${host}${gamePort === 443 ? '' : ':' + gamePort}`;
+    const client = new WebSocket(wsUrl);
+    
+    client.on("open", () => {
       console.log("Connected to game server successfully");
     });
     
-    client.on("data", (data) => {
+    client.on("message", (data) => {
       console.log("Data from game server, length:", data.length);
       if (Buffer.isBuffer(data)) {
         const array = new Uint8Array(data);
@@ -37,9 +42,9 @@ const setupHttpServer = (app) => {
     ws.on("message", (message) => {
       console.log("Message from client, length:", message.length);
       if (Buffer.isBuffer(message)) {
-        client.write(message);
+        client.send(message);
       } else {
-        client.write(Buffer.from(message));
+        client.send(message.toString());
       }
     });
     
@@ -50,7 +55,7 @@ const setupHttpServer = (app) => {
     
     ws.on("close", () => {
       console.log("Client closed connection");
-      client.destroy();
+      client.close();
     });
     
     client.on("error", (err) => {
