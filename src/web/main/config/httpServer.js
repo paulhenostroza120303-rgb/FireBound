@@ -16,14 +16,17 @@ const setupHttpServer = (app) => {
     
     const gameServerUrl = process.env.GAME_SERVER_URL || "firebound-o66l.onrender.com:9001";
     console.log("Connecting to game server:", gameServerUrl);
-    const [host, port] = gameServerUrl.split(":");
-    const gamePort = parseInt(port) || 443;
     
-    // Ensure we have a proper URL with port
-    if (!port || isNaN(gamePort)) {
-        console.error("Invalid game server URL format, expected host:port");
-        return;
+    let host, gamePort;
+    if (gameServerUrl.includes(":")) {
+        [host, port] = gameServerUrl.split(":");
+        gamePort = parseInt(port) || 443;
+    } else {
+        host = gameServerUrl;
+        gamePort = 443; // Default to 443 for Render SSL
     }
+    
+    console.log("Parsed host:", host, "port:", gamePort);
     
     const WebSocket = require("ws");
     // Use wss:// for Render (SSL terminated) but connect to game server port
