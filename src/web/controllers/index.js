@@ -98,6 +98,16 @@ router.get("/you_are_welcome", function (req, res) {
   }
 });
 
+router.get("/checkName", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const name = req.query.name || "";
+  if (name.length < 2) {
+    res.send(JSON.stringify([false, "Name too short"]));
+    return;
+  }
+  res.send(JSON.stringify([true, "Name available"]));
+});
+
 router.get("/", function (req, res) {
   res.render("index", {});
 });

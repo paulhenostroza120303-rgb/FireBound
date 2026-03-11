@@ -19,6 +19,10 @@ module.exports = class DataBase {
         user: self.user,
         password: self.password,
         database: self.database,
+        acquireTimeout: 60000,
+        timeout: 60000,
+        reconnect: true,
+        idleTimeout: 300000,
       });
       if (this.connection !== null) {
         Logger.normal("MYSQL Connect!");
@@ -36,6 +40,10 @@ module.exports = class DataBase {
         user: database.user,
         password: database.password,
         database: database.database,
+        acquireTimeout: 60000,
+        timeout: 60000,
+        reconnect: true,
+        idleTimeout: 300000,
       });
 
       if (database.connection !== null) {
@@ -2229,7 +2237,7 @@ module.exports = class DataBase {
       self.connection.getConnection().then((conn) => {
         conn
           .query(
-            "INSERT INTO user_avatars (UserId, aId, type, is_cash, is_gift, amount, expire_time, gift_sent_by) VALUES (?, ?, '0', '0', '1', '0', '0', 'system')",
+            "INSERT INTO user_avatars (UserId, aId, type, is_cash, is_gift, amount, expire_time, gift_sent_by) VALUES (?, ?, '0', '0', '1', '0', '0', 0)",
             [user_id, item_id]
           )
           .then((rows) => {
