@@ -19,6 +19,12 @@ const setupHttpServer = (app) => {
     const [host, port] = gameServerUrl.split(":");
     const gamePort = parseInt(port) || 443;
     
+    // Ensure we have a proper URL with port
+    if (!port || isNaN(gamePort)) {
+        console.error("Invalid game server URL format, expected host:port");
+        return;
+    }
+    
     const WebSocket = require("ws");
     const isSecure = process.env.NODE_ENV === 'production' || gamePort === 443;
     const protocol = isSecure ? 'wss' : 'ws';
