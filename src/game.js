@@ -9,6 +9,8 @@ var env = require('./game/env');
 
 var loadx = process.env.vps === '1' ? false : true;
 var gamePort = env.GAME_PORT || 9001;
+console.log("GAME_PORT from env:", env.GAME_PORT);
+console.log("Final gamePort:", gamePort);
 var self = this;
 Logger.Init("game.txt");
 this.db = new DataBase();
