@@ -1,5 +1,10 @@
 const config = require("@web/main/config/env");
-const WebSocket = require("ws");
+
+try {
+  var WebSocket = require("ws");
+} catch (e) {
+  console.error("Failed to load ws:", e);
+}
 
 const setupHttpServer = (app) => {
   const server = require("http").createServer(app);
