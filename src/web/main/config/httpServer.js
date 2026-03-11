@@ -77,8 +77,8 @@ const setupHttpServer = (app) => {
     }
   });
   
-  server.listen(config.PORT, () => {
-    console.log(`HTTP server listening on port ${config.PORT}`);
+  server.listen(9001, () => {
+    console.log(`HTTP server listening on port 9001`);
   });
   return server;
 };
