@@ -24,15 +24,17 @@ const setupHttpServer = (app) => {
       console.log("Connected to game server successfully");
     });
     
-    client.setEncoding("utf8");
-    
     client.on("data", (data) => {
-      console.log("Data from game server:", data.substring(0, 50));
-      ws.send(data.toString());
+      console.log("Data from game server, length:", data.length);
+      if (Buffer.isBuffer(data)) {
+        ws.send(data);
+      } else {
+        ws.send(data.toString());
+      }
     });
     
     ws.on("message", (message) => {
-      console.log("Message from client:", message.toString().substring(0, 50));
+      console.log("Message from client, length:", message.length);
       if (Buffer.isBuffer(message)) {
         client.write(message);
       } else {
