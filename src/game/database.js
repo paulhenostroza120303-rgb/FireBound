@@ -2237,7 +2237,7 @@ module.exports = class DataBase {
       self.connection.getConnection().then((conn) => {
         conn
           .query(
-            "INSERT INTO user_avatars (UserId, aId, type, is_cash, is_gift, amount, expire_time, gift_sent_by) VALUES (?, ?, '0', '0', '1', '0', '0', 0)",
+            "INSERT INTO user_avatars (UserId, aId, type, is_cash, is_gift, amount, expire_time, gift_sent_by, date_ava_time) VALUES (?, ?, '0', '0', '1', '0', '0', 0, NOW())",
             [user_id, item_id]
           )
           .then((rows) => {
