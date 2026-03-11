@@ -8,7 +8,7 @@ var MapController = require('./game/lib/mapController');
 var env = require('./game/env');
 
 var loadx = process.env.vps === '1' ? false : true;
-var gamePort = process.env.PORT || env.GAME_PORT || 9001;
+var gamePort = env.GAME_PORT || 9001;
 var self = this;
 Logger.Init("game.txt");
 this.db = new DataBase();

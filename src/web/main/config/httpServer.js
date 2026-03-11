@@ -37,6 +37,7 @@ const setupHttpServer = (app) => {
     
     client.on("message", (data) => {
       console.log("Data from game server, length:", data.length);
+      console.log("Game server data preview:", data.toString('hex', 0, Math.min(50, data.length)));
       if (Buffer.isBuffer(data)) {
         const array = new Uint8Array(data);
         ws.send(array.buffer);
@@ -47,6 +48,7 @@ const setupHttpServer = (app) => {
     
     ws.on("message", (message) => {
       console.log("Message from client, length:", message.length);
+      console.log("Client message preview:", Buffer.isBuffer(message) ? message.toString('hex', 0, Math.min(50, message.length)) : message.substring(0, 50));
       if (Buffer.isBuffer(message)) {
         client.send(message);
       } else {

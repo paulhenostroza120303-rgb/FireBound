@@ -33,7 +33,10 @@ module.exports = class WS extends Server {
             server: http
         });
         this._wss.on('connection', function connection(ws,req) {
+            Logger.normal('WebSocket connection received from: ' + req.socket.remoteAddress);
+            Logger.normal('Request URL: ' + req.url);
             self.server_qid=parseInt(req.url.split("/")[1]);
+            Logger.normal('Server QID: ' + self.server_qid);
             var c = new SocketConnection(self._createId(), ws, self);
             if (self.connection_callback) {
                 self.connection_callback(c);
